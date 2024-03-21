@@ -332,7 +332,7 @@ int countBitsToFlip(int A, int B)
 {
     // Step 1: XOR Operation
     int xorResult = A ^ B;
-    cout << xorResult << endl;
+    // cout << xorResult << endl;
 
     // Step 2: Count Set Bits
     int count = 0;
@@ -439,8 +439,15 @@ Find the XOR of the elements in the range [L, R].
 Input :  L=1 R=5  || Output : 1
 */
 // Bruteforce ----------->
-// TC :
-// SC :
+// TC :O(N)
+// SC :O(1)
+int findXORBruteforce(int L, int R)
+{
+    int ans = 0;
+    for (int i = L; i <= R; i++)
+        ans = ans ^ i;
+    return ans;
+}
 // Better ----------->
 // TC :
 // SC :
@@ -759,6 +766,260 @@ bool petrAndcombi(vector<int> &arr)
 // TC :
 // SC :
 
+// ================================TUF PLAYLIST YOUTUBE=================================>>
+/*
+1.Interger to Biinary String
+ANS :
+Input :    || Output :
+*/
+// Bruteforce ----------->
+// TC :
+// SC :
+// Better ----------->
+// TC :
+// SC :
+// Optimal ---------->
+// TC :logN
+// SC :logN
+
+string convert2binary(int x)
+{
+    string res = "";
+    if (x == 0)
+        return "0";
+    while (x != 0)
+    {
+        res += (x % 2 == 1) ? '1' : '0';
+        x = x / 2;
+    }
+    // reverse(res.begin(), res.end());
+    return res;
+}
+/*
+2.Binary string to Int
+ANS :
+Input :    || Output :
+*/
+// Bruteforce ----------->
+// TC :
+// SC :
+// Better ----------->
+// TC :
+// SC :
+// Optimal ---------->
+// TC :O(len)
+// SC :
+int binary2string(string s)
+{
+    int len = s.length();
+    int p2 = 1, num = 0;
+    for (int i = len - 1; i >= 0; i--)
+    {
+        if (s[i] == '1')
+            num = num + p2;
+        p2 = p2 * 2;
+    }
+    return num;
+}
+/*
+3. 1s Complement && 2s Complement
+ANS :1s : 13=(1101)2 now fip it =(0010)2
+2s :first int to binary (1101)2 then flip it =(0010)2 then add 1 to it (0011)2
+Input :    || Output :
+*/
+// Bruteforce ----------->
+// TC :
+// SC :
+// Better ----------->
+// TC :
+// SC :
+// Optimal ---------->
+// TC :
+// SC :
+
+/*
+4. Minimum bit flips to conver number
+ANS : Done in Upper
+Input :    || Output :
+*/
+
+/*
+5. Power set
+ANS : Done in Upper
+Input :    || Output :
+*/
+
+/*
+6. Single Number I
+ANS : You are given a nums of array , all array elems are have twice except for one you have to find this number.
+Input :    || Output :
+*/
+// Bruteforce ----------->
+// TC : O(NlogM)+M where M=(N/2+1) cz all elems appears twice except for one
+// SC : O(M)
+// Try using map
+// push all elems to map
+// then after push find from map wich elem contain count ==1 return that number
+// Better ----------->
+// TC :
+// SC :
+// Optimal ---------->
+// TC :O(1)
+// SC :
+// Using XOR menthod
+
+/*
+7. Single Number II
+ANS : You are given a nums of array , all array elems are have thrice except for one you have to find this number.
+Input :    || Output :
+*/
+// Bruteforce ----------->
+// TC : O(NlogM)+M where M=(N/3+1) cz all elems appears thrice except for one
+// SC : O(M)
+// Using map push and find
+// Better ----------->
+// TC :O(Nx32)
+// SC :
+// Using power set method
+int singleNumberII(vector<int> arr)
+{
+    int ans = 0;
+    int n = arr.size();
+    for (int bitInd = 0; bitInd < 32; bitInd++)
+    {
+        int cnt = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i] & (1 << bitInd))
+                cnt++;
+        }
+        if (cnt % 3 == 1)
+            ans = ans | (1 << bitInd);
+    }
+    return ans;
+}
+
+// Optimal ---------->
+// TC :O(NlogN)+O(N/3)
+// SC :
+// Sort the array
+// Loop from 1->n i++=i*3 bcz i have to stand at middle and check that is my a[i-1]==a[i]
+// If matched then i stand in a middle
+// else i is the single one
+// The edge case is if we did not found in a loop then last elem is a single elem
+int singleNumberIIOptimal(vector<int> arr)
+{
+    int n = arr.size();
+    sort(arr.begin(), arr.end());
+    for (int i = 1; i < n; i = i + 3)
+    {
+        if (arr[i - 1] != arr[i])
+            return arr[i - 1];
+    }
+    return arr[n - 1];
+}
+// Most Optimal ---------->
+// TC :O(N)
+// SC :O(1)
+// Concept of Bucket
+/*
+once,twos,threes
+nums[i] will go to once, if not in twos
+nums[i] will go to twos, if it is in once
+nums[i] will go to threes, if it is in twos
+*/
+int singleNumberIIMostOptimal(vector<int> nums)
+{
+    int n = nums.size();
+    int once = 0, twos = 0;
+    for (int i = 0; i < n; i++)
+    {
+        once = (once ^ nums[i]) & ~twos;
+        twos = (twos ^ nums[i]) & ~once;
+    }
+    return once;
+}
+/*
+8. Single Number III
+ANS : You are given a nums of array , all array elems are have twice except for two numbers(have once) you have to find this number.
+Input :    || Output :
+*/
+// Bruteforce ----------->
+// TC :O(NlogM)+(M)
+// SC :O(M)
+// put in a DS like map<int,int>mpp;(num,freq) then again traverse and find the numbers
+// Better ----------->
+// TC :O(2N)
+// SC :
+// Concept of Bucket
+vector<int> singleNumberIIIBetter(vector<int> nums)
+{
+    int n = nums.size();
+    int XORR = 0;
+    for (int i = 0; i < n; i++)
+    {
+        XORR = XORR ^ nums[i];
+    }
+    int rightMost = XORR & ~(XORR & (XORR - 1)); // Its O(1) operation cz its bitwise operation
+    int bucket1 = 0, bucket2 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (nums[i] & rightMost)
+        {
+            bucket1 = bucket1 ^ nums[i];
+        }
+        else
+        {
+            bucket2 = bucket2 ^ nums[i];
+        }
+    }
+    return {bucket1, bucket2};
+}
+
+// Optimal ---------->
+// TC :
+// SC :
+
+/*
+9. Divide Two Integers
+ANS : Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator.
+32-bit signed integer range: [−231, 231 − 1]. For this problem, if the quotient is strictly greater than 231 - 1, then return 231 - 1, and if the quotient is strictly less than -231, then return -231.
+Input :    || Output :
+*/
+// Bruteforce ----------->
+// TC : O(logN)^2
+// SC :O(1)
+int divide(int dividend, int divisor)
+{
+    if (dividend == INT_MIN && divisor == -1)
+        return INT_MAX;
+    long dvd = labs(dividend), dvs = labs(divisor), ans = 0;
+    /*
+    Expended line :
+        bool sign =false;
+        if(dividend>=0 && divisor<0)sign=false;
+        else if(dividend<=0 && divisor>0)sign=false;
+    */
+    int sign = dividend > 0 ^ divisor > 0 ? -1 : 1; /*Short Line*/
+    while (dvd >= dvs)
+    {
+        long temp = dvs, m = 1;
+        while (temp << 1 <= dvd)
+        {
+            temp <<= 1;
+            m <<= 1;
+        }
+        dvd -= temp;
+        ans += m;
+    }
+    return sign * ans;
+}
+// Better ----------->
+// TC :
+// SC :
+// Optimal ---------->
+// TC :
+// SC :
 // ================================MAIN START=================================>>
 int main()
 {
@@ -772,10 +1033,10 @@ int main()
             int sum = accumulate(arr.begin(), arr.end(), 0);
     */
 
-    vector<int> arr = {2, 4, 1, 3, 2, 4};
+    // vector<int> arr = {2, 4, 1, 3, 2, 4};
     // powset(arr);
-    int n = 14;
-    int m = 3;
+    // int n = 14;
+    // int m = 3;
     // cout << isKthBitSet(n, 1);
     // cout<<oddEvenBruteforce(n);
     // cout<<oddEvenOptimal(n);
@@ -804,7 +1065,18 @@ int main()
     // printVector(ans);
 
     // cout << myPowBruteforce(2.00, 10);
-    cout << myPowOptimal(2.00, 10);
+    // cout << myPowOptimal(2.00, 10);
+    // cout << convert2binary(9)<<endl;
+    // cout<<binary2string("1001");
+    vector<int> a = {1234567890, 1234567890, 233453, 6755, 233, 233, -1234567888, -1234567888};
+    // cout << singleNumberII(a);
+    // cout << singleNumberIIOptimal(a);
+    // cout << singleNumberIIMostOptimal(a);
+    // vector<int> ans = singleNumberIIIBetter(a);
+    // printVector(ans);
+    // cout << findXOR(3, 5) << endl;
+    // cout << findXORBruteforce(3, 5);
+    cout << divide(22, 3);
 
     // cout << petrAndcombi(arr);
 
