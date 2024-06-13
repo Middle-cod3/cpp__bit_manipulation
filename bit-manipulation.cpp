@@ -576,10 +576,35 @@ ANS : Given an integer ‘N’, your task is to write a program that returns all
 Input :N=10   || Output : 1 2 5 10
 */
 // Bruteforce ----------->
-// TC : O(sqrt(n)) remeber O(NlogN) for sorting but its constant
+// TC : O(N)
 // SC : O(1)
+/*
+Intuition : A divisor of a number n is an integer d such that n % d == 0 (i.e., n divided by d leaves no remainder).
+Divisors come in pairs. For example, if d is a divisor of n, then n/d is also a divisor of n.
+Instead of checking all numbers from 1 to n to see if they are divisors, we only need to check up to the square root of n. This is because for every divisor i less than or equal to the square root of n, there is a corresponding divisor n/i that is greater than or equal to the square root of n.
+
+*/
 vector<int> printDivisorsBruteforce(int n)
 {
+    vector<int> ans;
+    for (int i = 1; i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            ans.push_back(i);
+        }
+    }
+    return ans;
+}
+// Better ----------->
+// TC :
+// SC :
+// Optimal ---------->
+// TC : O(sqrt(n)) remeber O(NlogN) for sorting but its constant
+// SC : O(1)
+vector<int> printDivisorsOptimal(int n)
+{
+
     vector<int> ans;
     for (int i = 1; i * i <= n; i++)
     {
@@ -593,24 +618,6 @@ vector<int> printDivisorsBruteforce(int n)
         }
     }
     sort(ans.begin(), ans.end());
-    return ans;
-}
-// Better ----------->
-// TC :
-// SC :
-// Optimal ---------->
-// TC : O(N)
-// SC :O(1)
-vector<int> printDivisorsOptimal(int n)
-{
-    vector<int> ans;
-    for (int i = 1; i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            ans.push_back(i);
-        }
-    }
     return ans;
 }
 
